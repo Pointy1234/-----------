@@ -1,0 +1,7 @@
+{
+    "name": "elma365-page-counter",
+    "version": "1.0.0",
+    "contextRoot": "/elma365-page-counter",
+    "port": 3000,
+    "entryPoint": "index.js"
+}

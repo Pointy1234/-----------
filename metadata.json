@@ -1,0 +1,10 @@
+{
+    "name": "elma365-page-counter",
+    "version": "1.0.0",
+    "description": "Microservice to count the number of pages in PDF or DOCX files.",
+    "ports": {
+        "http": 3000
+    },
+    "env": [],
+    "commands": []
+}

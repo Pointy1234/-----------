@@ -1,0 +1,21 @@
+{
+    "name": "page-counter-microservice",
+    "version": "1.0.0",
+    "description": "Микросервис для подсчета количества страниц в DOCX и PDF файлах по ссылке.",
+    "main": "index.js",
+    "scripts": {
+      "start": "node index.js"
+    },
+    "dependencies": {
+      "express": "^4.18.2",
+      "mammoth": "^1.4.2",
+      "node-fetch": "^3.3.1",
+      "pdf-lib": "^1.17.1"
+    },
+    "engines": {
+      "node": ">=14.0.0"
+    },
+    "author": "",
+    "license": "MIT"
+  }
+  
