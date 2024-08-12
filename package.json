@@ -6,11 +6,12 @@
       "start": "node bin/www.js"
     },
     "dependencies": {
+      "express": "^4.17.3",
       "axios": "^0.21.1",
-      "express": "^4.17.1",
       "fs-extra": "^10.0.0",
+      "path": "^0.12.7",
       "mammoth": "^1.4.2",
-      "pdf-lib": "^1.17.1"
+      "pdf-lib": "^1.16.0"
     }
   }
   

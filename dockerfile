@@ -1,18 +1,18 @@
-ARG NODE_VERSION=8.10
-FROM node:${NODE_VERSION}
-ARG NODE_ENV=production
-ENV PORT=3000 NODE_ENV=${NODE_ENV}
+# Используем официальный образ Node.js в качестве базового
+FROM node:20
+
 # Создаем директорию для приложения
 WORKDIR /usr/src/app
 
 # Копируем package.json и package-lock.json
-COPY package.json /usr/src/app/
+COPY package*.json ./
 
 # Устанавливаем зависимости
 RUN npm install
 
 # Копируем все остальные файлы в рабочую директорию
-COPY . /usr/src/app
+COPY . .
+
 # Создаем папку temp
 RUN mkdir temp
 
