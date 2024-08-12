@@ -2,8 +2,8 @@ import express from 'express';
 import fetch from 'node-fetch';
 import pdfParse from 'pdf-parse';
 import { promises as fs } from 'fs';
-import * as docx from 'docx-parser';  // Обратите внимание, используем полный импорт
 import path from 'path';
+import mammoth from 'mammoth';
 
 const app = express();
 app.use(express.json());
@@ -38,12 +38,14 @@ app.post('/process-url', async (req, res) => {
             const tempFilePath = path.join(__dirname, 'temp.docx');
             await fs.writeFile(tempFilePath, buffer);
 
-            const doc = await docx.parse(tempFilePath);
+            // Считываем DOCX файл и получаем текст
+            const result = await mammoth.extractRawText({ path: tempFilePath });
+            const pageCount = result.value.split(/\f/).length; // Простой расчет страниц по разрывам страницы (если это применимо)
 
             // Удаление временного файла
             await fs.unlink(tempFilePath);
 
-            return res.json({ page_count: doc.pageCount });
+            return res.json({ page_count: pageCount });
         } else {
             return res.status(400).json({ error: 'Unsupported file type' });
         }
