@@ -1,7 +1,7 @@
-import { createServer } from '../src/server.js';
+import app from '../src/app.js';
 
 const port = process.env.PORT || 5000;
 
-createServer().listen(port, () => {
-  console.log(`Server running on port ${port}`);
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });

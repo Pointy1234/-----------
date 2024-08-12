@@ -6,128 +6,96 @@ import mammoth from 'mammoth';
 import { PDFDocument } from 'pdf-lib';
 
 const router = express.Router();
+const temp_dir = path.join(process.cwd(), 'temp');
 
-// Определите текущую директорию
-const getCurrentDir = () => path.resolve();
+const get_temp_file_path = (filename) => path.join(temp_dir, filename);
 
-// Путь к временным файлам
-const getTempFilePath = (filename) => path.join(getCurrentDir(), filename);
+fs.ensureDirSync(temp_dir);
 
-// Функция для логирования с временной меткой
-const logInfo = (message, data = {}) => {
-  console.log(`[INFO] ${new Date().toISOString()} - ${message}`, data);
-};
-
-const logError = (message, error) => {
-  console.error(`[ERROR] ${new Date().toISOString()} - ${message}`, error);
-};
-
-// Функция для загрузки файла по URL
-const downloadFile = async (url) => {
-  logInfo('Starting download from URL', { url });
+const download_file = async (url) => {
   try {
     const response = await axios.get(url, { responseType: 'arraybuffer' });
     return response;
   } catch (error) {
-    logError('Failed to download file', error);
     throw new Error('Failed to download file');
   }
 };
 
-// Функция для извлечения имени файла и расширения из заголовка content-disposition
-const extractFileDetails = (contentDisposition) => {
-  logInfo('Extracting file details from content-disposition', { contentDisposition });
+const extract_file_details = (content_disposition) => {
+  let file_name = 'unknown';
+  let file_extension = 'unknown';
 
-  let fileName = 'unknown';
-  let fileExtension = 'unknown';
-
-  const fileNameMatch = contentDisposition.match(/filename="?([^"]+)"?/);
-  if (fileNameMatch) {
-    fileName = fileNameMatch[1];
-    const extensionMatch = fileName.match(/\.(\w+)$/);
-    if (extensionMatch) {
-      fileExtension = extensionMatch[1].toLowerCase();
+  const file_name_match = content_disposition.match(/filename="?([^"]+)"?/);
+  if (file_name_match) {
+    file_name = file_name_match[1];
+    const extension_match = file_name.match(/\.(\w+)$/);
+    if (extension_match) {
+      file_extension = extension_match[1].toLowerCase();
     }
   }
 
-  return { fileName, fileExtension };
+  return { file_name, file_extension };
 };
 
-// Функция для подсчета количества страниц в PDF
-const countPdfPages = async (buffer) => {
-  logInfo('Processing PDF document');
+const count_pdf_pages = async (buffer) => {
   try {
-    const pdfDoc = await PDFDocument.load(buffer);
-    return pdfDoc.getPageCount();
+    const pdf_doc = await PDFDocument.load(buffer);
+    return pdf_doc.getPageCount();
   } catch (error) {
-    logError('Failed to parse PDF document', error);
     throw new Error('Failed to parse PDF document');
   }
 };
 
-// Функция для подсчета количества страниц в DOCX
-const countDocxPages = async (buffer) => {
-  logInfo('Processing DOCX document');
-  const tempDocxPath = getTempFilePath('temp.docx');
+const count_docx_pages = async (buffer) => {
+  const temp_docx_path = get_temp_file_path('temp.docx');
 
   try {
-    await fs.writeFile(tempDocxPath, buffer);
-    logInfo('DOCX file saved to temp file', { tempDocxPath });
+    await fs.writeFile(temp_docx_path, buffer);
 
-    const result = await mammoth.extractRawText({ path: tempDocxPath });
+    const result = await mammoth.extractRawText({ path: temp_docx_path });
     const text = result.value;
 
-    const pageCount = Math.ceil(text.length / 1500); // Оценка на основе количества текста
-    logInfo('DOCX page count estimated', { pageCount });
+    const page_count = Math.ceil(text.length / 1500);
 
     try {
-      await fs.unlink(tempDocxPath);
-      logInfo('Temporary DOCX file deleted', { tempDocxPath });
-    } catch (cleanupError) {
-      logError('Error cleaning up temporary files', cleanupError);
+      await fs.unlink(temp_docx_path);
+    } catch (cleanup_error) {
+      throw new Error('Error cleaning up temporary files');
     }
 
-    return pageCount;
+    return page_count;
   } catch (error) {
-    logError('Failed to process DOCX document', error);
     throw new Error('Failed to process DOCX document');
   }
 };
 
-// Основной обработчик запроса
-router.post('/', async (req, res) => {
+router.post('/pages', async (req, res) => {
   const { url } = req.body;
 
   if (!url) {
-    logError('URL is required');
     return res.status(400).json({ error: 'URL is required' });
   }
 
   try {
-    const response = await downloadFile(url);
-    const { data: fileBuffer, headers } = response;
+    const response = await download_file(url);
+    const { data: file_buffer, headers } = response;
 
-    // Получаем имя и расширение файла из заголовка content-disposition
-    const contentDisposition = headers['content-disposition'] || '';
-    const { fileExtension } = extractFileDetails(contentDisposition);
+    const content_disposition = headers['content-disposition'] || '';
+    const { file_extension } = extract_file_details(content_disposition);
 
-    logInfo('Extracted file details', { fileExtension });
+    let page_count = 0;
 
-    let pageCount = 0;
-
-    if (fileExtension === 'pdf') {
-      pageCount = await countPdfPages(fileBuffer);
-    } else if (fileExtension === 'docx') {
-      pageCount = await countDocxPages(fileBuffer);
+    if (file_extension === 'pdf') {
+      page_count = await count_pdf_pages(file_buffer);
+    } else if (file_extension === 'docx') {
+      page_count = await count_docx_pages(file_buffer);
     } else {
-      logError('Unsupported file format', { fileExtension });
       return res.status(400).json({ error: 'Unsupported file format' });
     }
 
-    res.json({ pageCount });
+    res.json({ page_count });
 
   } catch (error) {
-    logError('Error processing document', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });

@@ -1,23 +1,23 @@
-# Базовый образ Node.js
-FROM node:20-alpine
+# Используем официальный образ Node.js в качестве базового
+FROM node:20
 
-# Создаем рабочую директорию
-WORKDIR /app
+# Создаем директорию для приложения
+WORKDIR /usr/src/app
 
 # Копируем package.json и package-lock.json
 COPY package*.json ./
 
 # Устанавливаем зависимости
-RUN npm install --production
+RUN npm install
 
-# Копируем оставшуюся часть приложения
+# Копируем все остальные файлы в рабочую директорию
 COPY . .
 
-# Указываем, что приложение слушает на порте 5000
-ENV PORT 5000
+# Создаем папку temp
+RUN mkdir temp
 
-# Указываем команду для запуска приложения
-CMD ["npm", "start"]
-
-# Открываем порт
+# Открываем порт 5000
 EXPOSE 5000
+
+# Запускаем приложение
+CMD [ "node", "bin/www.js" ]

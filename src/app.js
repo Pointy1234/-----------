@@ -2,11 +2,9 @@ import express from 'express';
 import pagesRouter from './routes/pages.js';
 
 const app = express();
+const port = process.env.PORT || 5000;
 
-// Включите парсер тела запроса для JSON
 app.use(express.json());
-
-// Подключение маршрутов
-app.use('/pages', pagesRouter);
+app.use('/api', pagesRouter);
 
 export default app;
