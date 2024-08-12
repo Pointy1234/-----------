@@ -2,7 +2,6 @@ import express from 'express';
 import fetch from 'node-fetch';
 import pdf from 'pdf-parse';
 import { Document, Packer } from 'docx';
-import { URL } from 'url';
 
 const app = express();
 app.use(express.json());
@@ -15,7 +14,7 @@ app.post('/process-url', async (req, res) => {
     }
 
     try {
-        // Проверка и загрузка файла
+        // Загрузка файла
         const response = await fetch(url);
 
         if (!response.ok) {
