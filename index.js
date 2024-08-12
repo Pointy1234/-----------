@@ -1,12 +1,14 @@
 const express = require('express');
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+const fetch = require('node-fetch');
 const { PDFDocument } = require('pdf-lib');
-const mammoth = require('mammoth');
+const docx = require('docx');
 
 const app = express();
+const port = 3000;
+
 app.use(express.json());
 
-app.post('/processUrl', async (req, res) => {
+app.post('/process-url', async (req, res) => {
     const { url } = req.body;
 
     if (!url) {
@@ -15,33 +17,29 @@ app.post('/processUrl', async (req, res) => {
 
     try {
         const response = await fetch(url);
-        const buffer = await response.buffer();
-
-        const contentType = response.headers.get('content-type');
-        let pageCount = 0;
-
-        if (contentType === 'application/pdf') {
-            const pdfDoc = await PDFDocument.load(buffer);
-            pageCount = pdfDoc.getPageCount();
-        } else if (contentType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-            const result = await mammoth.extractRawText({ buffer: buffer });
-            const text = result.value;
-            pageCount = Math.ceil(text.split('\n').length / 50); // Примерная оценка страниц
-        } else {
-            return res.status(400).json({ error: 'Unsupported file type' });
+        if (!response.ok) {
+            return res.status(response.status).json({ error: `Failed to fetch file from URL. Status: ${response.status}` });
         }
 
-        res.json({
-            result: {
-                pageCount: pageCount
-            }
-        });
+        const contentType = response.headers.get('Content-Type');
+        const buffer = await response.buffer();
+
+        if (contentType.includes('pdf')) {
+            const pdfDoc = await PDFDocument.load(buffer);
+            const pageCount = pdfDoc.getPageCount();
+            return res.json({ page_count: pageCount });
+        } else if (contentType.includes('docx')) {
+            const doc = new docx.Document(buffer);
+            const pageCount = doc.sections.length; // Пример подсчета страниц
+            return res.json({ page_count: pageCount });
+        } else {
+            return res.status(415).json({ error: 'Unsupported file type' });
+        }
     } catch (error) {
-        res.status(500).json({ error: 'Error processing the file' });
+        return res.status(500).json({ error: 'Error processing the URL', details: error.message });
     }
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
 });
