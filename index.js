@@ -1,59 +1,63 @@
 import express from 'express';
 import fetch from 'node-fetch';
-import pdfParse from 'pdf-parse';
-import { promises as fs } from 'fs';
 import path from 'path';
-import mammoth from 'mammoth';
+import url from 'url';
+import pdf from 'pdf-parse';
+import { Document, Packer } from 'docx';
+
+// Получаем текущий каталог
+const __filename = url.fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 app.use(express.json());
 
+async function fetchFile(url) {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch file from URL. Status: ${response.status}`);
+  }
+
+  // Используем arrayBuffer вместо buffer
+  const arrayBuffer = await response.arrayBuffer();
+  return Buffer.from(arrayBuffer);
+}
+
+async function getPageCount(fileBuffer, fileType) {
+  if (fileType === 'application/pdf') {
+    const data = await pdf(fileBuffer);
+    return data.numpages;
+  } else if (fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+    const doc = new Document(fileBuffer);
+    return doc.pageCount;
+  } else {
+    throw new Error('Unsupported file type');
+  }
+}
+
 app.post('/process-url', async (req, res) => {
+  try {
     const { url } = req.body;
-
     if (!url) {
-        return res.status(400).json({ error: 'URL is required' });
+      return res.status(400).json({ error: 'No URL provided' });
     }
 
-    try {
-        const response = await fetch(url);
+    const fileBuffer = await fetchFile(url);
+    const fileType = 'application/pdf'; // You need to determine this based on the URL or content
+    const pageCount = await getPageCount(fileBuffer, fileType);
 
-        if (response.status === 404) {
-            return res.status(404).json({ error: 'File not found' });
-        }
+    res.json({ page_count: pageCount });
 
-        if (!response.ok) {
-            return res.status(500).json({ error: 'Failed to fetch file from URL' });
-        }
+    // Очистите временные файлы после обработки (если вы их сохраняете)
+    // fs.unlinkSync(filePath);
 
-        const contentType = response.headers.get('Content-Type');
-        const buffer = await response.buffer();
-
-        if (contentType.includes('application/pdf')) {
-            // Обработка PDF файла
-            const data = await pdfParse(buffer);
-            return res.json({ page_count: data.numpages });
-        } else if (contentType.includes('application/vnd.openxmlformats-officedocument.wordprocessingml.document')) {
-            // Обработка DOCX файла
-            const tempFilePath = path.join(__dirname, 'temp.docx');
-            await fs.writeFile(tempFilePath, buffer);
-
-            // Считываем DOCX файл и получаем текст
-            const result = await mammoth.extractRawText({ path: tempFilePath });
-            const pageCount = result.value.split(/\f/).length; // Простой расчет страниц по разрывам страницы (если это применимо)
-
-            // Удаление временного файла
-            await fs.unlink(tempFilePath);
-
-            return res.json({ page_count: pageCount });
-        } else {
-            return res.status(400).json({ error: 'Unsupported file type' });
-        }
-    } catch (error) {
-        console.error('Error fetching or processing file:', error);
-        return res.status(500).json({ error: 'Internal server error' });
-    }
+  } catch (error) {
+    console.error('Error fetching or processing file:', error);
+    res.status(500).json({ error: 'Failed to process file' });
+  }
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});

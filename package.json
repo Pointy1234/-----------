@@ -1,17 +1,16 @@
 {
     "name": "pages-counter",
     "version": "1.0.0",
-    "description": "Microservice for counting pages in PDF and DOCX files",
+    "type": "module",
     "main": "index.js",
-    "type": "module", 
     "scripts": {
       "start": "node index.js"
     },
     "dependencies": {
       "express": "^4.18.2",
-      "node-fetch": "^3.3.0",
-      "pdf-parse": "^1.1.1",
-      "mammoth": "^1.5.0"
+      "node-fetch": "^3.2.3",
+      "pdf-parse": "^2.0.7",
+      "docx": "^9.0.1"
     }
   }
   
