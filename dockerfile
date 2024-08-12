@@ -12,7 +12,6 @@ COPY package.json /usr/src/app/
 RUN npm install
 
 # Копируем все остальные файлы в рабочую директорию
-COPY . .
 COPY . /usr/src/app
 # Создаем папку temp
 RUN mkdir temp
