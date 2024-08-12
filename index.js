@@ -20,7 +20,7 @@ app.post('/count-pages', async (req, res) => {
         const response = await fetch(url);
         if (!response.ok) throw new Error(`Failed to fetch file from URL. Status: ${response.status}`);
         
-        const buffer = await response.buffer();
+        const buffer = await response.arrayBuffer();
         const ext = path.extname(url);
 
         if (ext === '.pdf') {
