@@ -1,6 +1,6 @@
-import express from 'express';
-import { PDFDocument } from 'pdf-lib';
-import docx from 'docx';
+const express = require('express');
+const fetch = require('node-fetch');
+const { PDFDocument } = require('pdf-lib');
 
 const app = express();
 const port = 3000;
@@ -15,7 +15,6 @@ app.post('/process-url', async (req, res) => {
     }
 
     try {
-        const fetch = (await import('node-fetch')).default;
         const response = await fetch(url);
         if (!response.ok) {
             return res.status(response.status).json({ error: `Failed to fetch file from URL. Status: ${response.status}` });
@@ -29,8 +28,11 @@ app.post('/process-url', async (req, res) => {
             const pageCount = pdfDoc.getPageCount();
             return res.json({ page_count: pageCount });
         } else if (contentType.includes('docx')) {
-            const doc = new docx.Document(buffer);
-            const pageCount = doc.sections.length; // Пример подсчета страниц
+            // Динамический импорт docx
+            const { Document } = await import('docx');
+            const doc = new Document(buffer);
+            // Примерный метод для подсчета страниц
+            const pageCount = doc.sections.length; // Убедитесь, что это корректно для вашей версии docx
             return res.json({ page_count: pageCount });
         } else {
             return res.status(415).json({ error: 'Unsupported file type' });
