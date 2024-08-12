@@ -136,6 +136,7 @@ app.post('/pages', async (req, res) => {
   }
 });
 
-app.listen(port, () => {
+// Запустите сервер
+app.listen(port, '0.0.0.0', () => {
   log_info(`Server running on port ${port}`);
 });
