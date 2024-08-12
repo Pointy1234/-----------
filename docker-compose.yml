@@ -1,7 +1,8 @@
 version: '3'
+name: elma-pages
 services:
-  app:
-    build: .
+  elma-pages:
+    image: toshatoshatoshatosha/elma-pages:latest
     ports:
       - "5000:5000"
     restart: always
