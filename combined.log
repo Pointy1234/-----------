@@ -1,0 +1,65 @@
+{"level":"info","message":"Server running on port 3000","timestamp":"2024-08-12T08:20:01.941Z"}
+{"level":"info","message":"Starting download from URL: http://onpremtest.elewise.local/s3elma365/976aaedd-f611-47b5-a84c-f228819e6756?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=PZSF73JG72Ksd955JKU1HIA%2F20240812%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240812T073742Z&X-Amz-Expires=28800&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3D%22.docx%22%3B%20filename%2A%3DUTF-8%27%27demo%2520%25281%2529%2520%25281%2529.docx%3B&X-Amz-Signature=ff0b479abcbfdc62e38e5b81ba5e0a9932689635361adbc2ddaadf26ef53123f","timestamp":"2024-08-12T08:20:07.664Z"}
+{"level":"error","message":"Unsupported file format","timestamp":"2024-08-12T08:20:08.032Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2024-08-12T08:20:57.103Z"}
+{"level":"info","message":"Starting download from URL: http://onpremtest.elewise.local/s3elma365/976aaedd-f611-47b5-a84c-f228819e6756?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=PZSF73JG72Ksd955JKU1HIA%2F20240812%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240812T073742Z&X-Amz-Expires=28800&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3D%22.docx%22%3B%20filename%2A%3DUTF-8%27%27demo%2520%25281%2529%2520%25281%2529.docx%3B&X-Amz-Signature=ff0b479abcbfdc62e38e5b81ba5e0a9932689635361adbc2ddaadf26ef53123f","timestamp":"2024-08-12T08:21:00.434Z"}
+{"level":"info","message":"MIME type of the file: ","timestamp":"2024-08-12T08:21:00.791Z"}
+{"level":"error","message":"Unsupported file format","timestamp":"2024-08-12T08:21:00.792Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2024-08-12T08:21:43.367Z"}
+{"level":"info","message":"Starting download from URL: http://onpremtest.elewise.local/s3elma365/976aaedd-f611-47b5-a84c-f228819e6756?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=PZSF73JG72Ksd955JKU1HIA%2F20240812%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240812T073742Z&X-Amz-Expires=28800&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3D%22.docx%22%3B%20filename%2A%3DUTF-8%27%27demo%2520%25281%2529%2520%25281%2529.docx%3B&X-Amz-Signature=ff0b479abcbfdc62e38e5b81ba5e0a9932689635361adbc2ddaadf26ef53123f","timestamp":"2024-08-12T08:21:46.241Z"}
+{"level":"info","message":"File extension: .docx%3b&x-amz-signature=ff0b479abcbfdc62e38e5b81ba5e0a9932689635361adbc2ddaadf26ef53123f","timestamp":"2024-08-12T08:21:46.628Z"}
+{"level":"error","message":"Unsupported file format","timestamp":"2024-08-12T08:21:46.628Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2024-08-12T08:22:29.559Z"}
+{"level":"info","message":"Extracted file name: .docx","timestamp":"2024-08-12T08:22:31.971Z"}
+{"level":"info","message":"File extension: ","timestamp":"2024-08-12T08:22:31.971Z"}
+{"level":"error","message":"Could not determine file extension","timestamp":"2024-08-12T08:22:31.971Z"}
+{"level":"info","message":"Extracted file name: .docx","timestamp":"2024-08-12T08:23:00.049Z"}
+{"level":"info","message":"File extension: ","timestamp":"2024-08-12T08:23:00.049Z"}
+{"level":"error","message":"Could not determine file extension","timestamp":"2024-08-12T08:23:00.050Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2024-08-12T08:23:51.344Z"}
+{"level":"info","message":"Extracted file name: .docx","timestamp":"2024-08-12T08:23:54.733Z"}
+{"level":"info","message":"File extension: ","timestamp":"2024-08-12T08:23:54.733Z"}
+{"level":"error","message":"Could not determine file extension","timestamp":"2024-08-12T08:23:54.734Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2024-08-12T08:24:48.622Z"}
+{"level":"info","message":"Extracted file name: 8c48134d-e061-473c-aab8-e007b4c294d5","timestamp":"2024-08-12T08:24:51.014Z"}
+{"level":"info","message":"File extension: ","timestamp":"2024-08-12T08:24:51.016Z"}
+{"level":"error","message":"Could not determine file extension","timestamp":"2024-08-12T08:24:51.016Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2024-08-12T08:25:38.451Z"}
+{"level":"warn","message":"File extension is missing; defaulting to .pdf","timestamp":"2024-08-12T08:25:40.100Z"}
+{"level":"info","message":"Extracted file name: 8c48134d-e061-473c-aab8-e007b4c294d5.pdf","timestamp":"2024-08-12T08:25:40.100Z"}
+{"level":"info","message":"File extension: .pdf","timestamp":"2024-08-12T08:25:40.100Z"}
+{"level":"info","message":"Starting download from URL: http://onpremtest.elewise.local/s3elma365/8c48134d-e061-473c-aab8-e007b4c294d5?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=PZSF73JG72Ksd955JKU1HIA%2F20240812%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240812T082252Z&X-Amz-Expires=28800&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3D%22.docx%22%3B%20filename%2A%3DUTF-8%27%27demo%2520%25281%2529%2520%25281%2529.docx%3B&X-Amz-Signature=cd0e656a58eb919f7ad573c7e5721ccefc4a17f2e1f97716cd5e878520ad6705","timestamp":"2024-08-12T08:25:40.100Z"}
+{"level":"info","message":"Processing PDF document","timestamp":"2024-08-12T08:25:40.524Z"}
+{"level":"error","message":"Error processing document: Failed to parse PDF document (line:9047 col:244 offset=1311881): No PDF header found","timestamp":"2024-08-12T08:25:40.538Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2024-08-12T08:26:45.843Z"}
+{"level":"warn","message":"File extension is missing; defaulting to .pdf","timestamp":"2024-08-12T08:26:48.772Z"}
+{"level":"info","message":"Extracted file name: 8c48134d-e061-473c-aab8-e007b4c294d5.pdf","timestamp":"2024-08-12T08:26:48.772Z"}
+{"level":"info","message":"File extension: .pdf","timestamp":"2024-08-12T08:26:48.772Z"}
+{"level":"info","message":"Starting download from URL: http://onpremtest.elewise.local/s3elma365/8c48134d-e061-473c-aab8-e007b4c294d5?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=PZSF73JG72Ksd955JKU1HIA%2F20240812%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240812T082252Z&X-Amz-Expires=28800&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3D%22.docx%22%3B%20filename%2A%3DUTF-8%27%27demo%2520%25281%2529%2520%25281%2529.docx%3B&X-Amz-Signature=cd0e656a58eb919f7ad573c7e5721ccefc4a17f2e1f97716cd5e878520ad6705","timestamp":"2024-08-12T08:26:48.772Z"}
+{"level":"info","message":"Processing DOCX document","timestamp":"2024-08-12T08:26:49.168Z"}
+{"level":"info","message":"Document processed successfully. Page count: 1","timestamp":"2024-08-12T08:26:49.271Z"}
+{"level":"warn","message":"File extension is missing; defaulting to .pdf","timestamp":"2024-08-12T08:30:51.640Z"}
+{"level":"info","message":"Extracted file name: d0b6113b-398d-4ca3-84bf-c4ccd22c0d87.pdf","timestamp":"2024-08-12T08:30:51.640Z"}
+{"level":"info","message":"File extension: .pdf","timestamp":"2024-08-12T08:30:51.641Z"}
+{"level":"info","message":"Starting download from URL: http://onpremtest.elewise.local/s3elma365/d0b6113b-398d-4ca3-84bf-c4ccd22c0d87?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=PZSF73JG72Ksd955JKU1HIA%2F20240812%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240812T083045Z&X-Amz-Expires=28800&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3D%22.pdf%22%3B%20filename%2A%3DUTF-8%27%27drylab%2520%25282%2529.pdf%3B&X-Amz-Signature=94e046c6d2a46c20eedb45fc32154e4cf7446d9167b6ae8c0e94c2fcd3f7cda5","timestamp":"2024-08-12T08:30:51.641Z"}
+{"level":"info","message":"Processing PDF document","timestamp":"2024-08-12T08:30:51.974Z"}
+{"level":"info","message":"Document processed successfully. Page count: 3","timestamp":"2024-08-12T08:30:52.015Z"}
+{"level":"warn","message":"File extension is missing; defaulting to .pdf","timestamp":"2024-08-12T08:31:13.851Z"}
+{"level":"info","message":"Extracted file name: 3a82b63a-84ca-490f-8e1e-5be258ecaf89.pdf","timestamp":"2024-08-12T08:31:13.851Z"}
+{"level":"info","message":"File extension: .pdf","timestamp":"2024-08-12T08:31:13.851Z"}
+{"level":"info","message":"Starting download from URL: http://onpremtest.elewise.local/s3elma365/3a82b63a-84ca-490f-8e1e-5be258ecaf89?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=PZSF73JG72Ksd955JKU1HIA%2F20240812%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240812T083104Z&X-Amz-Expires=28800&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3D%22.docx%22%3B%20filename%2A%3DUTF-8%27%27%25D0%259A%25D0%25BB%25D1%258E%25D1%2587%25D0%25B8%2520%25D1%2581%25D0%25B8%25D1%2581%25D1%2582%25D0%25B5%25D0%25BC%25D0%25BD%25D1%258B%25D1%2585%2520%25D1%2580%25D0%25B5%25D1%2588%25D0%25B5%25D0%25BD%25D0%25B8%25D0%25B9%2520%25D0%25BF%25D0%25BB%25D0%25B0%25D1%2582%25D1%2584%25D0%25BE%25D1%2580%25D0%25BC%25D1%258B%2520%25D1%2588%25D0%25B0%25D0%25B1%25D0%25BB%25D0%25BE%25D0%25BD.docx%3B&X-Amz-Signature=64f47741506602cb04c6eb8a5c34f2605d692d9e6d9103316b949ee10eb97af8","timestamp":"2024-08-12T08:31:13.852Z"}
+{"level":"info","message":"Processing DOCX document","timestamp":"2024-08-12T08:31:13.903Z"}
+{"level":"info","message":"Document processed successfully. Page count: 1","timestamp":"2024-08-12T08:31:13.916Z"}
+{"level":"warn","message":"File extension is missing; defaulting to .pdf","timestamp":"2024-08-12T08:31:50.739Z"}
+{"level":"info","message":"Extracted file name: d1fdc145-a0c5-472d-a5aa-4e0cbf29cf9f.pdf","timestamp":"2024-08-12T08:31:50.739Z"}
+{"level":"info","message":"File extension: .pdf","timestamp":"2024-08-12T08:31:50.739Z"}
+{"level":"info","message":"Starting download from URL: http://onpremtest.elewise.local/s3elma365/d1fdc145-a0c5-472d-a5aa-4e0cbf29cf9f?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=PZSF73JG72Ksd955JKU1HIA%2F20240812%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240812T083145Z&X-Amz-Expires=28800&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3D%22.docx%22%3B%20filename%2A%3DUTF-8%27%27demo%2520%25282%2529.docx%3B&X-Amz-Signature=bf64fa0c29aba6af5ba06ea44cd0caac385bb951493462d35866e94992a6623e","timestamp":"2024-08-12T08:31:50.739Z"}
+{"level":"info","message":"Processing DOCX document","timestamp":"2024-08-12T08:31:51.015Z"}
+{"level":"info","message":"Document processed successfully. Page count: 1","timestamp":"2024-08-12T08:31:51.084Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2024-08-12T08:36:14.779Z"}
+{"level":"warn","message":"File extension is missing; defaulting to .pdf","timestamp":"2024-08-12T08:36:18.356Z"}
+{"level":"info","message":"Extracted file name: d1fdc145-a0c5-472d-a5aa-4e0cbf29cf9f.pdf","timestamp":"2024-08-12T08:36:18.356Z"}
+{"level":"info","message":"File extension: .pdf","timestamp":"2024-08-12T08:36:18.357Z"}
+{"level":"info","message":"Starting download from URL: http://onpremtest.elewise.local/s3elma365/d1fdc145-a0c5-472d-a5aa-4e0cbf29cf9f?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=PZSF73JG72Ksd955JKU1HIA%2F20240812%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240812T083145Z&X-Amz-Expires=28800&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3D%22.docx%22%3B%20filename%2A%3DUTF-8%27%27demo%2520%25282%2529.docx%3B&X-Amz-Signature=bf64fa0c29aba6af5ba06ea44cd0caac385bb951493462d35866e94992a6623e","timestamp":"2024-08-12T08:36:18.357Z"}
+{"level":"info","message":"Processing DOCX document","timestamp":"2024-08-12T08:36:18.716Z"}
+{"level":"error","message":"Failed to parse DOCX document: docx4js.load is not a function","timestamp":"2024-08-12T08:36:18.717Z"}
