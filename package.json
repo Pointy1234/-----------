@@ -3,12 +3,13 @@
     "version": "1.0.0",
     "description": "A microservice to count pages in PDF and DOCX files.",
     "main": "index.js",
+    "type": "module",
     "scripts": {
       "start": "node index.js"
     },
     "dependencies": {
       "express": "^4.18.2",
-      "node-fetch": "^2.6.7",
+      "node-fetch": "^3.3.1",
       "pdf-lib": "^1.17.1",
       "docx": "^8.0.1"
     }

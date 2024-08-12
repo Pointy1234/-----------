@@ -1,7 +1,6 @@
-const express = require('express');
-const fetch = require('node-fetch');
-const { PDFDocument } = require('pdf-lib');
-const docx = require('docx');
+import express from 'express';
+import { PDFDocument } from 'pdf-lib';
+import docx from 'docx';
 
 const app = express();
 const port = 3000;
@@ -16,6 +15,7 @@ app.post('/process-url', async (req, res) => {
     }
 
     try {
+        const fetch = (await import('node-fetch')).default;
         const response = await fetch(url);
         if (!response.ok) {
             return res.status(response.status).json({ error: `Failed to fetch file from URL. Status: ${response.status}` });
