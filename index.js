@@ -1,6 +1,12 @@
-const express = require('express');
-const fetch = require('node-fetch');
-const { PDFDocument } = require('pdf-lib');
+import express from 'express';
+import fetch from 'node-fetch';
+import { PDFDocument } from 'pdf-lib';
+
+// Динамический импорт для docx
+let docx;
+(async () => {
+    docx = (await import('docx')).Document;
+})();
 
 const app = express();
 const port = 3000;
@@ -28,9 +34,11 @@ app.post('/process-url', async (req, res) => {
             const pageCount = pdfDoc.getPageCount();
             return res.json({ page_count: pageCount });
         } else if (contentType.includes('docx')) {
-            // Динамический импорт docx
-            const { Document } = await import('docx');
-            const doc = new Document(buffer);
+            // Убедитесь, что динамический импорт завершен
+            if (!docx) {
+                return res.status(500).json({ error: 'Failed to load docx module' });
+            }
+            const doc = new docx(buffer);
             // Примерный метод для подсчета страниц
             const pageCount = doc.sections.length; // Убедитесь, что это корректно для вашей версии docx
             return res.json({ page_count: pageCount });
