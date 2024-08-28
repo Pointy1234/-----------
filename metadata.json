@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "Microservice to count the number of pages in PDF or DOCX files.",
     "ports": {
-        "http": 3000
+        "http": 5000
     },
     "env": [],
     "commands": []

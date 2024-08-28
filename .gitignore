@@ -1,5 +1,5 @@
 # Node.js
-node_modules
+node_modules/
 npm-debug.log
 yarn-error.log
 
@@ -14,13 +14,14 @@ temp/
 .DS_Store
 Thumbs.db
 
-# Git
-.git
-.gitignore
+# Docker
+.dockerignore
+Dockerfile
+docker-compose.yml
+
+# Пакеты
+package-lock.json
+yarn.lock
 
 # Логи
 *.log
-
-# Docker
-Dockerfile
-docker-compose.yml

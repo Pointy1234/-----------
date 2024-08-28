@@ -1,13 +1,16 @@
 import app from './app.js';
 import http from 'http';
+import logger from './logger.js';
 
-// Создайте HTTP-сервер
 const server = http.createServer(app);
 const port = process.env.PORT || 5000;
 
-// Запустите сервер
 server.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+  logger.info(`Server is running on port ${port}`);
+});
+
+server.on('error', (err) => {
+  logger.error(`Server error: ${err.message}`);
 });
 
 export { server };
