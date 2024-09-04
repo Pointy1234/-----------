@@ -1,7 +1,7 @@
 import express from 'express';
 import pagesRouter from './routes/pages.js';
 import logger from './logger.js';
-
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 const app = express();
 const port = process.env.PORT || 5000;
 
