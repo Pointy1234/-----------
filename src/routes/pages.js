@@ -4,17 +4,17 @@ import fs from 'fs-extra';
 import path from 'path';
 import mammoth from 'mammoth';
 import puppeteer from 'puppeteer';
-import { PDFDocument } from 'pdf-lib';
+import pdfParse from 'pdf-parse';
 import logger from '../logger.js';
 
 const router = express.Router();
-const temp_dir = path.join(process.cwd(), 'temp');
+const tempDir = path.join(process.cwd(), 'temp');
 
-// Убедитесь, что временная папка существует
-fs.ensureDirSync(temp_dir);
+// Ensure the temp directory exists
+fs.ensureDirSync(tempDir);
 
-// Функция для загрузки файла
-const download_file = async (url) => {
+// Function to download file from URL
+const downloadFile = async (url) => {
   try {
     const response = await axios.get(url, { responseType: 'arraybuffer' });
     return response;
@@ -24,63 +24,54 @@ const download_file = async (url) => {
   }
 };
 
-// Функция для извлечения деталей файла из заголовка content-disposition
-const extract_file_details = (content_disposition) => {
-  let file_name = 'unknown';
-  let file_extension = 'unknown';
+// Function to extract file details from content-disposition header
+const extractFileDetails = (contentDisposition) => {
+  let fileName = 'unknown';
+  let fileExtension = 'unknown';
 
-  const file_name_match = content_disposition.match(/filename="?([^"]+)"?/);
-  if (file_name_match) {
-    file_name = file_name_match[1];
-    const extension_match = file_name.match(/\.(\w+)$/);
-    if (extension_match) {
-      file_extension = extension_match[1].toLowerCase();
+  const fileNameMatch = contentDisposition.match(/filename="?([^"]+)"?/);
+  if (fileNameMatch) {
+    fileName = fileNameMatch[1];
+    const extensionMatch = fileName.match(/\.(\w+)$/);
+    if (extensionMatch) {
+      fileExtension = extensionMatch[1].toLowerCase();
     }
   }
 
-  return { file_name, file_extension };
+  return { fileName, fileExtension };
 };
 
-// Функция для конвертации DOCX в HTML
-const convert_docx_to_html = async (buffer) => {
+// Function to convert DOCX to PDF
+const convertDocxToPdf = async (docxBuffer, pdfPath) => {
   try {
-    const result = await mammoth.convertToHtml({ buffer });
-    return result.value;
-  } catch (error) {
-    logger.error(`Failed to convert DOCX to HTML: ${error.message}`);
-    throw new Error('Failed to convert DOCX to HTML');
-  }
-};
+    const result = await mammoth.convertToHtml({ buffer: docxBuffer });
+    let html = result.value;
 
-// Функция для конвертации HTML в PDF
-const convert_html_to_pdf = async (html) => {
-  try {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
-    
     await page.setContent(html, { waitUntil: 'networkidle0' });
-    const pdfBuffer = await page.pdf({ format: 'A4' });
-    
+    await page.pdf({ path: pdfPath, format: 'A4', printBackground: true });
     await browser.close();
-    return pdfBuffer;
+
+    logger.info('PDF successfully created');
   } catch (error) {
-    logger.error(`Failed to convert HTML to PDF: ${error.message}`);
-    throw new Error('Failed to convert HTML to PDF');
+    logger.error(`Failed to convert DOCX to PDF: ${error.message}`);
+    throw new Error('Failed to convert DOCX to PDF');
   }
 };
 
-// Функция для подсчета страниц в PDF
-const get_pdf_page_count = async (pdfBuffer) => {
+// Function to get page count from PDF buffer
+const getPdfPageCount = async (pdfBuffer) => {
   try {
-    const pdfDoc = await PDFDocument.load(pdfBuffer);
-    return pdfDoc.getPageCount();
+    const data = await pdfParse(pdfBuffer);
+    return data.numpages || 0;
   } catch (error) {
     logger.error(`Failed to count pages in PDF: ${error.message}`);
     throw new Error('Failed to count pages in PDF');
   }
 };
 
-// Обработчик POST-запросов на /pages
+// POST handler for /pages
 router.post('/pages', async (req, res) => {
   const { url } = req.body;
 
@@ -91,29 +82,31 @@ router.post('/pages', async (req, res) => {
 
   try {
     logger.info(`Processing file from URL: ${url}`);
-    const response = await download_file(url);
-    const { data: file_buffer, headers } = response;
+    const response = await downloadFile(url);
+    const { data: fileBuffer, headers } = response;
 
-    const content_disposition = headers['content-disposition'] || '';
-    const { file_extension } = extract_file_details(content_disposition);
+    const contentDisposition = headers['content-disposition'] || '';
+    const { fileExtension } = extractFileDetails(contentDisposition);
 
-    let page_count = 0;
+    const tempDocxPath = path.join(tempDir, 'input.docx');
+    const tempPdfPath = path.join(tempDir, 'output.pdf');
+    fs.writeFileSync(tempDocxPath, fileBuffer);
 
-    if (file_extension === 'pdf') {
-      // Подсчет страниц в PDF
-      page_count = await get_pdf_page_count(file_buffer);
-    } else if (file_extension === 'docx') {
-      // Конвертация DOCX в HTML, затем в PDF и подсчет страниц
-      const html = await convert_docx_to_html(file_buffer);
-      const pdfBuffer = await convert_html_to_pdf(html);
-      page_count = await get_pdf_page_count(pdfBuffer);
+    let pageCount = 0;
+
+    if (fileExtension === 'pdf') {
+      pageCount = await getPdfPageCount(fileBuffer);
+    } else if (fileExtension === 'docx') {
+      await convertDocxToPdf(fileBuffer, tempPdfPath);
+      const pdfBuffer = fs.readFileSync(tempPdfPath);
+      pageCount = await getPdfPageCount(pdfBuffer);
     } else {
       logger.warn('Unsupported file format');
       return res.status(400).json({ error: 'Unsupported file format' });
     }
 
-    logger.info(`Page count for file ${file_extension}: ${page_count}`);
-    res.json({ page_count });
+    logger.info(`Page count for file ${fileExtension}: ${pageCount}`);
+    res.json({ pageCount });
 
   } catch (error) {
     logger.error(`Internal server error: ${error.message}`);

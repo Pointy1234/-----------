@@ -7,14 +7,11 @@ WORKDIR /usr/src/app
 # Копируем package.json и package-lock.json
 COPY package*.json ./
 
-# Устанавливаем зависимости
-RUN npm install
+# Копируем локально установленные зависимости
+COPY node_modules ./node_modules
 
 # Копируем все остальные файлы в рабочую директорию
 COPY . .
-
-# Создаем папку temp
-RUN mkdir temp
 
 # Открываем порт 5000
 EXPOSE 5000

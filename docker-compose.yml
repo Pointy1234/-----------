@@ -4,5 +4,5 @@ services:
   elma-pages:
     image: toshatoshatoshatosha/elma-pages:latest
     ports:
-      - "5000:5000"
+      - "3000:3000" 
     restart: always
