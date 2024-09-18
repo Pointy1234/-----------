@@ -20,4 +20,4 @@ COPY --from=builder /usr/src/app ./
 EXPOSE 5000
 
 # Запускаем приложение
-CMD [ "node", "bin/www.js" ]
+CMD ["npm", "start"]
