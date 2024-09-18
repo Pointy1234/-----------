@@ -1,5 +1,4 @@
 # Node.js
-node_modules/
 npm-debug.log
 yarn-error.log
 
@@ -16,11 +15,9 @@ Thumbs.db
 
 # Docker
 .dockerignore
-Dockerfile
 docker-compose.yml
 
 # Пакеты
-package-lock.json
 yarn.lock
 
 # Логи
