@@ -1,17 +1,20 @@
-# Используем официальный образ Node.js в качестве базового
-FROM node:20
+# Stage 1: Build Stage
+FROM node:20 AS builder
 
-# Создаем директорию для приложения
+# Создаем рабочую директорию для сборки
 WORKDIR /usr/src/app
 
-# Копируем package.json и package-lock.json
-COPY package*.json ./
-
-# Копируем локально установленные зависимости
-COPY node_modules ./node_modules
-
-# Копируем все остальные файлы в рабочую директорию
+# Копируем все файлы, включая локально установленные зависимости
 COPY . .
+
+# Stage 2: Production Stage
+FROM node:20-slim
+
+# Создаем рабочую директорию для приложения
+WORKDIR /usr/src/app
+
+# Копируем все файлы из стадии сборки
+COPY --from=builder /usr/src/app ./
 
 # Открываем порт 5000
 EXPOSE 5000
