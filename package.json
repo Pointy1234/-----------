@@ -7,6 +7,7 @@
     },
     "dependencies": {
         "axios": "^1.7.5",
+        "elma-pages": "file:",
         "express": "^4.19.2",
         "fs-extra": "^10.1.0",
         "mammoth": "^1.8.0",
