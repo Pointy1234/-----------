@@ -3,8 +3,8 @@ import axios from 'axios';
 import fs from 'fs-extra';
 import path from 'path';
 import mammoth from 'mammoth';
-import puppeteer from 'puppeteer';
 import pdfParse from 'pdf-parse';
+import { PDFDocument, rgb } from 'pdf-lib';
 import logger from '../logger.js';
 
 const router = express.Router();
@@ -44,18 +44,31 @@ const extractFileDetails = (contentDisposition) => {
 // Function to convert DOCX to PDF
 const convertDocxToPdf = async (docxBuffer, pdfPath) => {
   try {
-    const result = await mammoth.convertToHtml({ buffer: docxBuffer });
-    let html = result.value;
+    // Преобразуем DOCX в HTML/текст с помощью Mammoth
+    const result = await mammoth.extractRawText({ buffer: docxBuffer });
+    const text = result.value;
 
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    await page.setContent(html, { waitUntil: 'networkidle0' });
-    await page.pdf({ path: pdfPath, format: 'A4', printBackground: true });
-    await browser.close();
+    // Создаем новый PDF-документ
+    const pdfDoc = await PDFDocument.create();
+    const page = pdfDoc.addPage([595, 842]); // A4 формат
 
-    logger.info('PDF successfully created');
+    // Настраиваем шрифт и текст
+    const fontSize = 12;
+    page.drawText(text, {
+      x: 50,
+      y: 800,
+      size: fontSize,
+      color: rgb(0, 0, 0),
+      maxWidth: 500, // ширина текста
+    });
+
+    // Сохраняем PDF в файл
+    const pdfBytes = await pdfDoc.save();
+    fs.writeFileSync(pdfPath, pdfBytes);
+
+    console.log('PDF successfully created');
   } catch (error) {
-    logger.error(`Failed to convert DOCX to PDF: ${error.message}`);
+    console.error(`Failed to convert DOCX to PDF: ${error.message}`);
     throw new Error('Failed to convert DOCX to PDF');
   }
 };
